@@ -1,10 +1,17 @@
 <?php
-// Method: POST, PUT, GET etc
-// Data: array("param" => "value") ==> index.php?param=value
+/*
+###### AirWatch internal App size API page #######
+
+Author: Adam Matthews (matthewsa@vmware.com)
+Date: 29th October 2016
+
+TODO (AS OF 29/10/16): 
+    * handle REST errors
+*/
 
 $crap = 10;
 
-function CallAPI($method, $url, $env, $data = false)
+function CallAPI($method, $url, $data = false)
 {
 	//echo $method;
 	//echo $url;    
@@ -13,14 +20,12 @@ function CallAPI($method, $url, $env, $data = false)
 $json_file = file_get_contents('env.json');
 
 $jfo = json_decode($json_file);
-//var_dump($jfo);
 
 $env_tenantcode = $jfo->awtenantcode;
-//print_r($env_tenantcode);
 
 $env_auth = $jfo->auth;
-//echo $env_auth;
 
+//initiate curl
 $curl = curl_init();
 
     switch ($method)
