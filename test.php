@@ -4,10 +4,10 @@
 include 'api.php';?>
 
 <html>
+<title>AirWatch API Test</test>
 <body>
 
 <?php
-
 /*
 ###### AirWatch internal App size API page #######
 
@@ -20,8 +20,8 @@ TODO (AS OF 25/10/16):
 	* Handle REST API Error display
 */
 
-	$appcount = CallAPI("GET","https://aw.em-emm.uk/api/system/groups/570/storage", 1);
-	$allapps = CallAPI("GET","https://aw.em-emm.uk/api/mam/apps/search?type=app&applicationtype=internal", 1);
+	$appcount = CallAPI("GET","https://aw.em-emm.uk/api/system/groups/570/storage");
+	$allapps = CallAPI("GET","https://aw.em-emm.uk/api/mam/apps/search?type=app&applicationtype=internal");
 	
 	$count = (json_decode($appcount,true));
 	//var_dump($count); //USE IF YOU GET REST API ERRORS
@@ -29,12 +29,12 @@ TODO (AS OF 25/10/16):
 	$totalsize = 0; // size count var
 	$data = JSON_DECODE($allapps);
 	
-	$bid = "";
+	$bid = ""; //bundle id - tracking var
 	
 	foreach($data->Application as $app)
 	{
 		//if($app->Status == "Active") //only count if active
-//		echo $app->BundleId." <br />";
+		//echo $app->BundleId." <br />";
 
 		if($bid !== $app->BundleId){ //account for duplicate bundle ID's (ASSUMPTION - refences in DB dont match with physical storage)
 			$totalsize = $totalsize + (float)substr($app->ApplicationSize, 0, -3); //convert to float and add to total, remove ' MB' fom string	
@@ -46,10 +46,8 @@ TODO (AS OF 25/10/16):
 	echo "<br />Total Storage: ".$count['ApplicationCapacity'];
 	echo "<br />Used: ".$totalsize;
 
-
 ?>
 </textarea>
-
 
 </body>
 </html>
